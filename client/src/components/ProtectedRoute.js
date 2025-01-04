@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children }) => {
   const getUser = async () => {
     try {
       dispatch(showLoading());
-      const response = await axios.post(
+      const response = await axios.get(
         "/api/user/get-user-by-id",
         {},
         {
