@@ -1,0 +1,294 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Main Layout */
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Layout Wrapper */
+.layout {
+  display: flex;
+  height: calc(100% - 70px); /* Subtract header height */
+  gap: 20px; /* Increased gap between sidebar and content */
+  padding: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  background: linear-gradient(145deg, #005555, #018b8b);
+  color: white;
+  width: 250px;
+  transition: width 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+}
+
+.sidebar.collapsed {
+  width: 70px; /* Smaller width when collapsed */
+  align-items: center; /* Center the icons */
+}
+
+.sidebar.collapsed .menu-item a {
+  display: none; /* Hide text when collapsed */
+}
+
+.sidebar.collapsed .menu-item {
+  justify-content: center; /* Center icons */
+  padding: 20px; /* Slightly increased padding */
+}
+
+.sidebar.collapsed .menu-item i {
+  font-size: 24px; /* Adjust icon size when collapsed */
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  padding: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  transition: padding 0.3s ease, font-size 0.3s ease;
+  margin-bottom: 20px; /* Increased margin for better separation */
+}
+
+/* Adjustments when sidebar is collapsed */
+.sidebar.collapsed .sidebar-header {
+  padding: 10px; /* Reduced padding */
+}
+
+.sidebar.collapsed .sidebar-header h1 {
+  font-size: 20px; /* Shrink the logo font size */
+  visibility: hidden; /* Hide the text when collapsed */
+}
+
+.sidebar.collapsed .sidebar-header .logo-icon {
+  visibility: visible; /* Show logo icon if you prefer */
+  font-size: 30px; /* Adjust logo icon size */
+}
+
+/* Add hr tag styling */
+.sidebar-hr {
+  margin: 15px 0;
+  border: 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  width: 80%;
+  margin-left: 10%;
+  transition: border-color 0.3s ease;
+}
+
+/* Menu */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+  margin: 0 auto; /* Centers the menu horizontally */
+  flex-grow: 1;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 18px; /* Added more padding for better touch targets */
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.menu-item i {
+  font-size: 22px;
+}
+
+.menu-item a {
+  text-decoration: none;
+  color: white;
+  flex-grow: 1;
+}
+
+.active-menu-item {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+/* Content Area */
+.content {
+  flex: 1;
+  background: #ffffff;
+  padding: 30px; /* Increased padding for more space */
+  margin: 10px;
+  border-radius: 12px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+.content.collapsed {
+  margin-left: 70px; /* Adjust for the collapsed sidebar width */
+  width: calc(100% - 70px); /* Ensure content width adjusts */
+}
+
+/* Header */
+.header {
+  background: #f8f7f7;
+  height: 70px;
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  border-radius: 12px;
+}
+
+/* Collapsed Sidebar and Header Adjustments */
+.header-action-icon {
+  font-size: 28px;
+  cursor: pointer;
+  color: #018b8b;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.header-action-icon:hover {
+  transform: rotate(90deg);
+  color: #005555;
+}
+
+
+.anchor {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+/* Side-Bar Role  */
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+.section-name {
+  font-size: 18px;
+  color: #b3ecec; /* Slightly lighter for contrast */
+  margin-top: 5px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.menu-item.active-menu-item {
+  background-color: #007f7f; 
+  color: white;
+  border-radius: 5px;
+}
+
+.menu-item.active-menu-item i,
+.menu-item.active-menu-item a {
+  color: white;
+}
+
+
+
+/* Doctor-card */
+
+.card {
+  cursor: pointer;
+  padding: 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 24px;
+  color: #2c3e50;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin: 5px 0;
+}
+
+.card-text.phone-number {
+  font-size: 18px;
+  font-weight: bold;
+ 
+}
+
+.card-text:hover {
+  cursor: pointer;
+}
+
+
+/* Timing-card */
+.doctor-timing {
+  font-weight: bold;
+  font-size: 18px;
+  color: #34495e;
+  background-color: #ecf0f1;
+  padding: 8px 16px;
+  border-radius: 6px;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Helvetica Neue', sans-serif;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.doctor-timing:hover {
+  background-color: #16a085;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+
