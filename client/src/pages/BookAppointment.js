@@ -52,7 +52,7 @@ const BookAppointment = () => {
 
       dispatch(showLoading());
       const response = await axios.post(
-        "https://doctor-s-app-backend.vercel.app/api/user/check-booking-availability",
+        "https://doctor-s-app-1-server.vercel.app/api/user/check-booking-availability",
         {
           doctorId: params.doctorId,
           date: date.format("DD-MM-YYYY"),
@@ -94,7 +94,7 @@ const BookAppointment = () => {
 
       dispatch(showLoading());
       const response = await axios.post(
-        "https://doctor-s-app-backend.vercel.app/api/user/book-appointment",
+        "https://doctor-s-app-1-server.vercel.app/api/user/book-appointment",
         {
           doctorId: params.doctorId,
           userId: user._id,

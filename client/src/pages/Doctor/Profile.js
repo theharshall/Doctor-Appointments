@@ -19,7 +19,7 @@ const Profile = () => {
     try {
       dispatch(showLoading());
       const response = await axios.post(
-        "https://doctor-s-app-backend.vercel.app/api/doctors/get-doctor-info",
+        "https://doctor-s-app-1-server.vercel.app/api/doctors/get-doctor-info",
         { userId: params.userId },
         {
           headers: {
@@ -50,7 +50,7 @@ const Profile = () => {
     try {
       dispatch(showLoading());
       const response = await axios.post(
-        "https://doctor-s-app-backend.vercel.app/api/doctors/update-doctor-profile",
+        "https://doctor-s-app-1-server.vercel.app/api/doctors/update-doctor-profile",
         { ...values, userId: user._id },
         {
           headers: {
