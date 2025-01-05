@@ -24,7 +24,7 @@ const Home = () => {
       dispatch(showLoading());
 
       // API request to fetch doctors
-      const response = await axios.get("https://doctor-s-app-backend.vercel.app/api/user/get-all-approved-doctors", {
+      const response = await axios.get("api/user/get-all-approved-doctors", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
