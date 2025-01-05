@@ -27,7 +27,7 @@ function App() {
       setIsAuthenticated(true); // User is authenticated
     }
   }, [token]);
-  axios.defaults.baseURL = "http://localhost:3000/";
+  axios.defaults.baseURL = "http://localhost:5000/";
 
   return (
     <BrowserRouter>
