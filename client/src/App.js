@@ -15,17 +15,19 @@ import Profile from "./pages/Doctor/Profile";
 import BookAppointment from "./pages/BookAppointment";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/Doctor/DoctorAppointments";
+import axios from "axios";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { loading } = useSelector((state) => state.alerts);
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    const token = localStorage.getItem("token");
+   
     if (token) {
       setIsAuthenticated(true); // User is authenticated
     }
-  }, []);
+  }, [token]);
+  axios.defaults.baseURL = "http://localhost:5000/";
 
   return (
     <BrowserRouter>
