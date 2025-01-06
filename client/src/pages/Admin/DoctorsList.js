@@ -18,6 +18,7 @@ const DoctorsList = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+        withCredentials: true,
       });
       dispatch(hideLoading());
       if (response.data.success) {
@@ -52,6 +53,7 @@ const DoctorsList = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
+          withCredentials: true,
         }
       );
       dispatch(hideLoading());

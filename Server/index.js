@@ -12,8 +12,11 @@ const dbConfig = require('./config/dbConfig');
 app.use(express.json()); // Parse incoming JSON requests
 
 // Enable CORS
-app.use(cors());
-
+app.use(cors({
+    origin: 'https://app-doctor-client.vercel.app', // Specify the allowed origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+    credentials: true // Allow cookies if needed
+}));
 // User routes
 const userRoute = require('./routes/userRoute');
 app.use('/api/user', userRoute);

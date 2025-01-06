@@ -21,6 +21,7 @@ const Userslist = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+        withCredentials: true,
       });
       dispatch(hideLoading());
 
