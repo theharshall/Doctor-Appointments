@@ -17,6 +17,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
     credentials: true // Allow cookies if needed
 }));
+
 // User routes
 const userRoute = require('./routes/userRoute');
 app.use('/api/user', userRoute);
