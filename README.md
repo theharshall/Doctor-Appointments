@@ -8,7 +8,7 @@ Doctor Appointments is a web-based application designed to simplify the process 
 
 # Features
 
-## Patient Features
+## Patient / User Features
 
  Book an Appointment: Patients can view available slots and book appointments with their preferred doctors.
 
