@@ -11,16 +11,16 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   const getUser = async () => {
+    console.log(localStorage.getItem("token"),"get user");
+    
     try {
       dispatch(showLoading());
       const response = await axios.get(
-        "/api/user/get-user-by-id",
-        {},
+        "http://localhost:5000/api/user/get-user-by-id",
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          withcredentials: true,
         }
       );
       dispatch(hideLoading());

@@ -8,7 +8,18 @@ const User = require('../models/userModel');
 // Get Doctor Info by User ID
 router.post("/get-doctor-info", authMiddleware, async (req, res) => {
   try {
-    const doctor = await Doctor.findOne({ userId: req.body.userId });
+    const { userId } = req.body; // Destructure userId from request body
+
+    // Ensure userId is provided
+    if (!userId) {
+      return res.status(400).send({
+        success: false,
+        msg: "User ID is required.",
+      });
+    }
+
+    // Find the doctor by userId
+    const doctor = await Doctor.findOne({ userId });
 
     if (!doctor) {
       return res.status(404).send({
@@ -57,6 +68,8 @@ router.post("/get-doctor-info-by-id", authMiddleware, async (req, res) => {
     });
   }
 });
+
+
 
 
 router.post("/update-doctor-profile", async (req, res) => {

@@ -16,19 +16,28 @@ const Profile = () => {
 
   // Function to fetch doctor data
   const getDoctorData = async () => {
+    if (!params.userId) {
+      console.error("User ID is missing in params.");
+      toast.error("User ID is missing. Cannot fetch doctor data.");
+      return;
+    }
+  
     try {
       dispatch(showLoading());
+  
+      // Correct URL (single slash between domain and endpoint)
       const response = await axios.post(
-        "https://doctor-s-app-1-server.vercel.app/api/doctors/get-doctor-info",
-        { userId: params.userId },
+        "http://localhost:5000/api/doctors/get-doctor-info", // Corrected double slash
+        { userId: params.userId }, // Ensure correct userId is passed
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token for authentication
           },
         }
       );
+  
       dispatch(hideLoading());
-
+  
       if (response.data.success) {
         setDoctor(response.data.data); // Set doctor data in state
       } else {
@@ -36,9 +45,11 @@ const Profile = () => {
       }
     } catch (error) {
       dispatch(hideLoading());
+      console.error("Error fetching doctor data:", error);
       toast.error("Failed to fetch doctor data. Please try again.");
     }
   };
+  
 
   // Run once on component mount or when user data changes
   useEffect(() => {
@@ -50,7 +61,7 @@ const Profile = () => {
     try {
       dispatch(showLoading());
       const response = await axios.post(
-        "https://doctor-s-app-1-server.vercel.app/api/doctors/update-doctor-profile",
+        "http://localhost:5000/api/doctors/update-doctor-profile",
         { ...values, userId: user._id },
         {
           headers: {

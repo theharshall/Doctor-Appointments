@@ -28,7 +28,6 @@ const BookAppointment = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          withCredentials: true,
         }
       );
       dispatch(hideLoading());
@@ -50,15 +49,21 @@ const BookAppointment = () => {
         toast.error("Please select both date and time.");
         return;
       }
-
+  
+      // Display loading spinner
       dispatch(showLoading());
+  
+      const requestData = {
+        doctorId: params.doctorId,
+        date: date.format("DD-MM-YYYY"),
+        time: time.format("HH:mm"),
+      };
+  
+      console.log("Sending request to check availability:", requestData);
+  
       const response = await axios.post(
         "/api/user/check-booking-availability",
-        {
-          doctorId: params.doctorId,
-          date: date.format("DD-MM-YYYY"),
-          time: time.format("HH:mm"),
-        },
+        requestData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -66,16 +71,27 @@ const BookAppointment = () => {
           withCredentials: true,
         }
       );
+  
+      console.log("Response received:", response.data);
+  
+      // Hide loading spinner
       dispatch(hideLoading());
-
+  
       if (response.data.success) {
         toast.success(
           response.data.msg || "Doctor is available at the requested time."
         );
         setIsAvailable(true);
+      } else {
+        toast.error(
+          response.data.msg || "Doctor is not available at the requested time."
+        );
       }
     } catch (error) {
+      console.error("Error during availability check:", error);
       dispatch(hideLoading());
+  
+      // Handle specific errors
       if (error.response && error.response.data) {
         toast.error(
           error.response.data.msg || "Error checking availability. Please try again."
@@ -85,6 +101,7 @@ const BookAppointment = () => {
       }
     }
   };
+  
 
   const bookNow = async () => {
     setIsAvailable(false);
@@ -109,7 +126,6 @@ const BookAppointment = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          withCredentials: true,
         }
       );
       dispatch(hideLoading());

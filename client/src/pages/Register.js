@@ -17,7 +17,6 @@ function Register() {
       const response = await axios.post("/api/user/register", values);
       dispatch(hideLoading());
       if (response.data.success) {
-        // toast.success(response.data.msg);
         toast.success("Registration successful!");
 
         navigate("/login");

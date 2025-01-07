@@ -275,10 +275,12 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
 
 
 router.post("/check-booking-availability", authMiddleware, async (req, res) => {
+  // console.log("Received request:", req.body);
+
   try {
     const { date, time, doctorId } = req.body;
 
-    // Ensure both date and time are provided
+    // Ensure all required fields are provided
     if (!date || !time || !doctorId) {
       return res.status(400).send({
         msg: "Please provide date, time, and doctorId.",
@@ -286,29 +288,31 @@ router.post("/check-booking-availability", authMiddleware, async (req, res) => {
       });
     }
 
-    // Parse and format date and time consistently
-    const formattedDate = moment(date, 'DD-MM-YYYY').startOf('day').toISOString();
-    const formattedTime = moment(time, 'HH:mm').format("HH:mm"); // Ensure time is in HH:mm format
+    // Parse and format date and time
+    const formattedDate = moment(date, "DD-MM-YYYY").startOf("day").toISOString();
+    const requestedTime = moment(time, "HH:mm");
+    const fromTime = requestedTime.clone().subtract(1, "hours").format("HH:mm");
+    const toTime = requestedTime.clone().add(30, "minutes").format("HH:mm");
 
-    // Define fromTime and toTime to create a range around the requested time
-    const fromTime = moment(time, "HH:mm").subtract(1, "hours").toISOString();
-    const toTime = moment(time, "HH:mm").add(30, "minutes").toISOString();
+    // console.log("Checking availability for:", {
+    //   doctorId,
+    //   formattedDate,
+    //   fromTime,
+    //   toTime,
+    // });
 
-    console.log("Checking availability for:", { formattedDate, formattedTime, fromTime, toTime, doctorId });
-
-    // Find existing appointments for the doctor with overlapping time range
+    // Query for overlapping appointments
     const appointments = await Appointment.find({
       doctorId,
-      date: formattedDate, // Match exact date
+      date: formattedDate, // Match the exact date
       time: {
-        $gte: moment(fromTime).format("HH:mm"), // Greater than or equal to fromTime
-        $lt: moment(toTime).format("HH:mm"),   // Less than toTime
+        $gte: fromTime, // Check for overlapping time
+        $lt: toTime,
       },
     });
 
     console.log("Appointments found:", appointments);
 
-    // If appointments exist, doctor is not available at the requested time
     if (appointments.length > 0) {
       return res.status(400).send({
         msg: "Appointment not available at the requested time.",
@@ -316,7 +320,7 @@ router.post("/check-booking-availability", authMiddleware, async (req, res) => {
       });
     }
 
-    // If no appointments, doctor is available at the requested time
+    // Doctor is available
     res.status(200).send({
       msg: "This doctor is available at the requested time.",
       success: true,
@@ -326,10 +330,11 @@ router.post("/check-booking-availability", authMiddleware, async (req, res) => {
     res.status(500).send({
       msg: "Error checking availability. Please try again later.",
       success: false,
-      error: error.message,  // Send error message for better clarity
+      error: error.message,
     });
   }
 });
+
 
 
 router.get("/get-appointments-by-user-id", authMiddleware, async (req, res) => {

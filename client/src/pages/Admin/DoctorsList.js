@@ -18,7 +18,7 @@ const DoctorsList = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        withCredentials: true,
+      
       });
       dispatch(hideLoading());
       if (response.data.success) {
@@ -42,10 +42,10 @@ const DoctorsList = () => {
   const handleAction = async (record, action) => {
     try {
       dispatch(showLoading());
-
+  
       // Determine the new status based on the action
       const newStatus = action === "approve" ? "approved" : "blocked";
-
+  
       const response = await axios.post(
         "/api/admin/change-doctors-account-status", // Correct endpoint
         { doctorId: record._id, status: newStatus }, // Send doctorId and status
@@ -53,19 +53,21 @@ const DoctorsList = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          withCredentials: true,
         }
       );
+  
       dispatch(hideLoading());
-
+  
       if (response.data.success) {
         // Show a success notification
         notification.success({
-          message: `Doctor ${action.charAt(0).toUpperCase() + action.slice(1)}d`,
+          message: `Doctor ${newStatus.charAt(0).toUpperCase() + newStatus.slice(1)}`,
+          description: `The doctor's account has been successfully ${newStatus}.`,
         });
-        getDoctorsData();  // Refresh the data
+        // Refresh the list of doctors
+        getDoctorsData();
       } else {
-        // Show a failure notification
+        // Handle server-reported errors
         notification.error({
           message: `Failed to ${action} doctor`,
           description: response.data.message || "An error occurred.",
@@ -73,13 +75,14 @@ const DoctorsList = () => {
       }
     } catch (error) {
       dispatch(hideLoading());
-      console.error(`Failed to ${action} doctor:`, error);
+      console.error(`Error occurred while trying to ${action} doctor:`, error);
       notification.error({
         message: "Error",
-        description: "An error occurred while processing the request.",
+        description: "An error occurred while processing the request. Please try again.",
       });
     }
   };
+  
 
   const columns = [
     {

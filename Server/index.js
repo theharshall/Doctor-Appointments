@@ -9,13 +9,12 @@ require('dotenv').config();
 const dbConfig = require('./config/dbConfig');
 
 // Middleware
-app.use(express.json()); // Parse incoming JSON requests
+app.use(express.json()); 
 
 // Enable CORS
 app.use(cors({
-    origin: 'https://app-doctor-client.vercel.app', // Specify the allowed origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-    credentials: true // Allow cookies if needed
+    origin: process.env.CLIENT_URL || "http://localhost:3000", 
+    credentials: true,
 }));
 
 // User routes

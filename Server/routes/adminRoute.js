@@ -45,9 +45,17 @@ router.get("/get-all-users", authMiddleware, async (req, res) => {
 // Change doctor's status
 router.post("/change-doctors-account-status", authMiddleware, async (req, res) => {
   try {
-    const { doctorId, status, userId } = req.body;
+    const { doctorId, status } = req.body;
 
-    // Update the doctor's status
+    // Validate input
+    if (!doctorId || !status) {
+      return res.status(400).send({
+        success: false,
+        msg: "Doctor ID and status are required",
+      });
+    }
+
+    // Find and update the doctor's status
     const doctor = await Doctor.findByIdAndUpdate(
       doctorId,
       { status },
@@ -56,53 +64,53 @@ router.post("/change-doctors-account-status", authMiddleware, async (req, res) =
 
     if (!doctor) {
       return res.status(404).send({
-        msg: "Doctor not found",
         success: false,
+        msg: "Doctor not found",
       });
     }
 
-    // Update user's notifications
-    const user = await User.findById({_id: doctor.userId});
+    // Find the associated user
+    const user = await User.findById(doctor.userId);
     if (!user) {
       return res.status(404).send({
-        msg: "User not found",
         success: false,
+        msg: "User associated with the doctor not found",
       });
     }
 
+    // Add a notification for the user
     const unseenNotifications = user.unseenNotifications || [];
     unseenNotifications.push({
-      type: "new-doctor-account-request-changed",
-      message: `Your doctor account has been ${status}`,
+      type: "doctor-account-status-changed",
+      message: `Your doctor account has been ${status}.`,
       data: {
         doctorId: doctor._id,
-        name: doctor.firstName + " " + doctor.lastName,
+        name: `${doctor.firstName} ${doctor.lastName}`,
         onClickPath: "/notifications",
       },
     });
 
-    user.isDoctor = status === "approved" ? true : false;
-
-    // Save updated user data
+    // Update the user's doctor status and notifications
+    user.isDoctor = status === "approved";
     user.unseenNotifications = unseenNotifications;
     await user.save();
 
- 
-
+    // Send a success response
     res.status(200).send({
-      msg: "Doctor status updated successfully ",
       success: true,
+      msg: `Doctor status updated to ${status} successfully`,
       data: doctor,
     });
   } catch (error) {
     console.error("Error updating doctor's status:", error);
     res.status(500).send({
-      msg: "Error updating doctor's status",
       success: false,
+      msg: "An error occurred while updating the doctor's status",
       error,
     });
   }
 });
+
 
 
 module.exports = router;
