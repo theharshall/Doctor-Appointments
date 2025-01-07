@@ -1,6 +1,6 @@
 
-# Almabetter
-##Capstone Project: Full Stack Web Development
+
+## Almabetter Capstone Project: Full Stack Web Development
 
 # Doctor Appointments
 
