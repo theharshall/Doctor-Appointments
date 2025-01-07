@@ -2,37 +2,37 @@
 
 Doctor Appointments is a web-based application designed to simplify the process of scheduling and managing doctor appointments. The application offers features for both patients and doctors, ensuring seamless communication and efficient management.
 
-Features
+## Features
 
-Patient Features
+## Patient Features
 
-Book an Appointment: Patients can view available slots and book appointments with their preferred doctors.
+## Book an Appointment: Patients can view available slots and book appointments with their preferred doctors.
 
-My Appointments: View upcoming and past appointments.
+## My Appointments: View upcoming and past appointments.
 
-Profile Management: Update personal details and view medical history.
+## Profile Management: Update personal details and view medical history.
 
-Doctor Features
+# Doctor Features
 
-Manage Appointments: View and manage scheduled appointments.
+## Manage Appointments: View and manage scheduled appointments.
 
-Patient Interaction: Access patient details to prepare for consultations.
+## Patient Interaction: Access patient details to prepare for consultations.
 
-Profile Management: Update doctor profile and availability.
+## Profile Management: Update doctor profile and availability.
 
-Admin Features
+# Admin Features
 
-User Management: Manage patient and doctor accounts.
+## User Management: Manage patient and doctor accounts.
 
-Appointment Tracking: Monitor and manage appointments across the platform.
+## Appointment Tracking: Monitor and manage appointments across the platform.
 
-Tech Stack
+# Tech Stack
 
-Frontend
+# Frontend
 
-React: For building the user interface.
+ React: For building the user interface.
 
-Redux: For state management.
+ Redux: For state management.
 
 Tailwind CSS: For styling and responsive design.
 
