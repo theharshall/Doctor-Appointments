@@ -1,4 +1,4 @@
-Doctor Appointments
+# Doctor Appointments
 
 Doctor Appointments is a web-based application designed to simplify the process of scheduling and managing doctor appointments. The application offers features for both patients and doctors, ensuring seamless communication and efficient management.
 
