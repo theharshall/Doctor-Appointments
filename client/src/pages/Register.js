@@ -25,7 +25,7 @@ function Register() {
       }
     } catch (error) {
     dispatch(hideLoading());
-      toast.error("something went wrong");
+      toast.error("User Already Created Account");
     }
   };
 
