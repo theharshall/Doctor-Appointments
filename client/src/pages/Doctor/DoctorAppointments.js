@@ -18,7 +18,7 @@ const DoctorAppointments = () => {
       dispatch(showLoading());
 
       const response = await axios.get(
-        `http://localhost:3000/api/doctors/get-appointments-by-doctor-id`,
+        `https://doctor-appointments-weld.vercel.app/api/doctors/get-appointments-by-doctor-id`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
