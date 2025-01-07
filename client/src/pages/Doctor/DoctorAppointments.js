@@ -54,7 +54,7 @@ const DoctorAppointments = () => {
       dispatch(showLoading());
   
       const response = await axios.post(
-        `http://localhost:3000/api/doctors/change-appointment-status`,
+        `https://doctor-appointments-weld.vercel.app/api/doctors/change-appointment-status`,
         {
           appointmentId: record._id,
           status: action,
