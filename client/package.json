@@ -44,7 +44,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "https://doctor-appointments-weld.vercel.app/",
     "devDependencies": {
     "@babel/cli": "^7.26.4",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
