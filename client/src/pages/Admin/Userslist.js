@@ -3,10 +3,8 @@ import Layout from "../../components/Layout";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertSlice";
 import axios from "axios";
-import { Table, Typography } from "antd";
+import { Table, Typography, message, Button } from "antd";
 import moment from "moment";
-import { Button } from "antd";
-
 
 const { Title } = Typography;
 
@@ -14,6 +12,7 @@ const Userslist = () => {
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
 
+  // Fetch Users Data
   const getUsersData = async () => {
     try {
       dispatch(showLoading());
@@ -30,17 +29,37 @@ const Userslist = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.error("Error fetching users:", error);
+      message.error("Failed to fetch users.");
     }
   };
 
-  useEffect(() => {
-    getUsersData();
-  }, []);
+  // Block User
+  const handleBlockUser = async (userId) => {
+    try {
+      dispatch(showLoading());
+      const response = await axios.post(
+        "/api/admin/block-user",
+        { userId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      dispatch(hideLoading());
 
-  const handleBlockUser = (userId) => {
-    // Function to handle blocking the user
-    console.log("Block user with ID:", userId);
-    // You can implement API call here for blocking the user
+      if (response.data.success) {
+        message.success("User has been blocked successfully.");
+        // Refresh the user list
+        getUsersData();
+      } else {
+        message.error(response.data.message || "Failed to block user.");
+      }
+    } catch (error) {
+      dispatch(hideLoading());
+      console.error("Error blocking user:", error);
+      message.error("Failed to block user.");
+    }
   };
 
   const columns = [
@@ -62,6 +81,16 @@ const Userslist = () => {
       render: (text) => moment(text).format("DD-MM-YYYY"),
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Typography.Text type={status === "blocked" ? "danger" : "success"}>
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </Typography.Text>
+      ),
+    },
+    {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
@@ -69,6 +98,7 @@ const Userslist = () => {
           <Button
             type="primary"
             danger
+            disabled={record.status === "blocked"}
             onClick={() => handleBlockUser(record._id)}
           >
             Block
@@ -77,7 +107,10 @@ const Userslist = () => {
       ),
     },
   ];
-  
+
+  useEffect(() => {
+    getUsersData();
+  }, []);
 
   return (
     <Layout>
