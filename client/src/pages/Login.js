@@ -12,46 +12,7 @@ function Login() {
   const navigate = useNavigate();
   const loading = useSelector((state) => state.alerts.loading); // Get the loading state from Redux
 
-  // Handle form submission
-// const onFinish = async (values) => {
-//   try {
-//     dispatch(showLoading()); // Show the loading spinner
 
-//     // Send the login request to the backend
-//     const response = await axios.post("http://localhost:5000/api/user/login", values);
-
-//     // Debugging: Check the response structure
-//     console.log("Login response:", response.data);
-
-//     dispatch(hideLoading()); // Hide the loading spinner
-
-//     // Check if login is successful
-//     if (response.data.success) {
-//       toast.success("Login successful!");
-
-//       // Verify and store the token in localStorage
-//       const token = response.data.data; // Assuming `data` contains the token
-//       if (token) {
-//         localStorage.setItem("token", token); // Save the token in localStorage
-//         console.log("Token saved to localStorage:", token);
-
-//         // Redirect to Home Page
-//         navigate("/");
-//       } else {
-//         console.error("Token is missing in the response.");
-//         toast.error("Failed to retrieve login token.");
-//       }
-//     } else {
-//       toast.error(response.data.msg || "Login failed. Please try again.");
-//     }
-//   } catch (error) {
-//     dispatch(hideLoading()); // Hide the loading spinner
-//     console.error("Login Error:", error);
-
-//     // Handle errors and show appropriate toast message
-//     toast.error(error.response?.data?.msg || "Something went wrong. Please try again.");
-//   }
-// };
 
 
 

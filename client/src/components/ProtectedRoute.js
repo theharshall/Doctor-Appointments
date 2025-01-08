@@ -16,7 +16,7 @@ const ProtectedRoute = ({ children }) => {
     try {
       dispatch(showLoading());
       const response = await axios.get(
-        "http://localhost:5000/api/user/get-user-by-id",
+        "https://doctor-appointments-weld.vercel.app/api/user/get-user-by-id",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

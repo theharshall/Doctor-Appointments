@@ -27,7 +27,7 @@ const Profile = () => {
   
       // Correct URL (single slash between domain and endpoint)
       const response = await axios.post(
-        "http://localhost:5000/api/doctors/get-doctor-info", // Corrected double slash
+        "https://doctor-appointments-weld.vercel.app/api/doctors/get-doctor-info", // Corrected double slash
         { userId: params.userId }, // Ensure correct userId is passed
         {
           headers: {
@@ -61,7 +61,7 @@ const Profile = () => {
     try {
       dispatch(showLoading());
       const response = await axios.post(
-        "http://localhost:5000/api/doctors/update-doctor-profile",
+        "https://doctor-appointments-weld.vercel.app/api/doctors/update-doctor-profile",
         { ...values, userId: user._id },
         {
           headers: {
