@@ -3,8 +3,10 @@ import Layout from "../../components/Layout";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertSlice";
 import axios from "axios";
-import { Table, Typography, Button, message } from "antd";
+import { Table, Typography } from "antd";
 import moment from "moment";
+import { Button } from "antd";
+
 
 const { Title } = Typography;
 
@@ -35,33 +37,10 @@ const Userslist = () => {
     getUsersData();
   }, []);
 
-  const handleBlockUser = async (userId, currentStatus) => {
-    try {
-      dispatch(showLoading());
-      const newStatus = currentStatus === "active" ? "blocked" : "active";
-      const response = await axios.post(
-        "/api/admin/update-user-status",
-        { userId, status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      dispatch(hideLoading());
-
-      if (response.data.success) {
-        message.success(`User status updated to ${newStatus}`);
-        // Refresh the user list
-        getUsersData();
-      } else {
-        message.error(response.data.message || "Failed to update user status.");
-      }
-    } catch (error) {
-      dispatch(hideLoading());
-      console.error("Error updating user status:", error);
-      message.error("Failed to update user status.");
-    }
+  const handleBlockUser = (userId) => {
+    // Function to handle blocking the user
+    console.log("Block user with ID:", userId);
+    // You can implement API call here for blocking the user
   };
 
   const columns = [
@@ -83,30 +62,22 @@ const Userslist = () => {
       render: (text) => moment(text).format("DD-MM-YYYY"),
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => (
-        <Typography.Text type={status === "blocked" ? "danger" : "success"}>
-          {status.charAt(0).toUpperCase() + status.slice(1)}
-        </Typography.Text>
-      ),
-    },
-    {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
         <div className="d-flex">
           <Button
-            type={record.status === "active" ? "danger" : "primary"}
-            onClick={() => handleBlockUser(record._id, record.status)}
+            type="primary"
+            danger
+            onClick={() => handleBlockUser(record._id)}
           >
-            {record.status === "active" ? "Block" : "Activate"}
+            Block
           </Button>
         </div>
       ),
     },
   ];
+  
 
   return (
     <Layout>
