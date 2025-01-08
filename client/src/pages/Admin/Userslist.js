@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertSlice";
 import axios from "axios";
-import { Table, Typography, message, Button } from "antd";
+import { Table, Typography, Button, message } from "antd";
 import moment from "moment";
 
 const { Title } = Typography;
@@ -12,7 +12,6 @@ const Userslist = () => {
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
 
-  // Fetch Users Data
   const getUsersData = async () => {
     try {
       dispatch(showLoading());
@@ -29,17 +28,20 @@ const Userslist = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.error("Error fetching users:", error);
-      message.error("Failed to fetch users.");
     }
   };
 
-  // Block User
-  const handleBlockUser = async (userId) => {
+  useEffect(() => {
+    getUsersData();
+  }, []);
+
+  const handleBlockUser = async (userId, currentStatus) => {
     try {
       dispatch(showLoading());
+      const newStatus = currentStatus === "active" ? "blocked" : "active";
       const response = await axios.post(
-        "/api/admin/block-user",
-        { userId },
+        "/api/admin/update-user-status",
+        { userId, status: newStatus },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -49,16 +51,16 @@ const Userslist = () => {
       dispatch(hideLoading());
 
       if (response.data.success) {
-        message.success("User has been blocked successfully.");
+        message.success(`User status updated to ${newStatus}`);
         // Refresh the user list
         getUsersData();
       } else {
-        message.error(response.data.message || "Failed to block user.");
+        message.error(response.data.message || "Failed to update user status.");
       }
     } catch (error) {
       dispatch(hideLoading());
-      console.error("Error blocking user:", error);
-      message.error("Failed to block user.");
+      console.error("Error updating user status:", error);
+      message.error("Failed to update user status.");
     }
   };
 
@@ -96,21 +98,15 @@ const Userslist = () => {
       render: (text, record) => (
         <div className="d-flex">
           <Button
-            type="primary"
-            danger
-            disabled={record.status === "blocked"}
-            onClick={() => handleBlockUser(record._id)}
+            type={record.status === "active" ? "danger" : "primary"}
+            onClick={() => handleBlockUser(record._id, record.status)}
           >
-            Block
+            {record.status === "active" ? "Block" : "Activate"}
           </Button>
         </div>
       ),
     },
   ];
-
-  useEffect(() => {
-    getUsersData();
-  }, []);
 
   return (
     <Layout>

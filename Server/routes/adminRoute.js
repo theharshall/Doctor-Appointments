@@ -30,7 +30,7 @@ router.get("/get-all-users", authMiddleware, async (req, res) => {
     res.status(200).send({
       msg: "Users fetched successfully",
       success: true,
-      data: users,
+      data: users,  // The `status` field is part of the user document
     });
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -41,6 +41,7 @@ router.get("/get-all-users", authMiddleware, async (req, res) => {
     });
   }
 });
+
 
 // Change doctor's status
 router.post("/change-doctors-account-status", authMiddleware, async (req, res) => {
@@ -106,6 +107,57 @@ router.post("/change-doctors-account-status", authMiddleware, async (req, res) =
     res.status(500).send({
       success: false,
       msg: "An error occurred while updating the doctor's status",
+      error,
+    });
+  }
+});
+
+
+
+//update-status-user
+router.post("/update-user-status", authMiddleware, async (req, res) => {
+  try {
+    const { userId, status } = req.body;
+
+    if (!userId || !status) {
+      return res.status(400).send({
+        msg: "User ID and status are required.",
+        success: false,
+      });
+    }
+
+    // Validate status value (it should either be "active" or "blocked")
+    if (status !== "active" && status !== "blocked") {
+      return res.status(400).send({
+        msg: "Invalid status value. Must be 'active' or 'blocked'.",
+        success: false,
+      });
+    }
+
+    // Find and update the user status
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { status }, // Update status field in the database
+      { new: true } // Return the updated user document
+    );
+
+    if (!user) {
+      return res.status(404).send({
+        msg: "User not found.",
+        success: false,
+      });
+    }
+
+    res.status(200).send({
+      msg: `User status updated to ${status}`,
+      success: true,
+      data: user, // Return updated user data
+    });
+  } catch (error) {
+    console.error("Error updating user status:", error);
+    res.status(500).send({
+      msg: "Error updating user status",
+      success: false,
       error,
     });
   }
