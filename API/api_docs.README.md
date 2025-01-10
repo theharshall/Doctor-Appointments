@@ -2,7 +2,7 @@
 
 ## Base URL
 
-http://localhost:5000
+https://github.com/theharshall/Doctor-Appointments/blob/main/API/api_docs.README.md
 
 
 ## Endpoints
